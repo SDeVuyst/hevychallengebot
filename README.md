@@ -29,28 +29,20 @@ cp .env.example .env
 openssl rand -hex 32   # paste into ENCRYPTION_KEY
 ```
 
-3. Register slash commands (once):
-
-```bash
-docker compose run --rm bot node -e "console.log('built image needed')"
-# Or locally:
-npm ci && npx tsx src/commands/register.ts
-```
-
-Easiest local register before deploy:
-
-```bash
-cp .env.example .env   # fill values; set GUILD_ID for instant guild sync
-npm ci
-npx tsx src/commands/register.ts
-```
-
-4. Start the bot:
+3. Start the bot:
 
 ```bash
 docker compose up -d --build
 docker compose logs -f
 ```
+
+4. Register slash commands (from the running container):
+
+```bash
+docker compose exec bot node dist/commands/register.js
+```
+
+Set `GUILD_ID` in `.env` for instant guild sync; omit it for global commands (can take up to ~1 hour).
 
 SQLite lives in the `hevybot-data` volume (`DATABASE_PATH=/app/data/hevybot.db`). Back it up periodically.
 
