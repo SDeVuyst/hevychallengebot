@@ -1,0 +1,13 @@
+services:
+  bot:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - stack.env
+    environment:
+      DATABASE_PATH: /app/data/hevybot.db
+    volumes:
+      - hevybot-data:/app/data
+
+volumes:
+  hevybot-data:
